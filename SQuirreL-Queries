@@ -1,0 +1,18 @@
+//For loading sample data as attached in CSV file
+// First create a table of records with composite keys
+
+CREATE TABLE IF NOT EXISTS records (
+customerid VARCHAR NOT NULL,
+ordernum VARCHAR NOT NULL,
+orderdt BIGINT NOT NULL,
+somekey VARCHAR,
+record_ts TIMESTAMP
+CONSTRAINT my_pk PRIMARY KEY (customerid, ordernum, orderdt));
+
+
+// Load the data in CSV source file to this table created (psql.py is python script provided by Apache Phoenix)
+./psql.py -t RECORDS samplerecords.csv
+
+
+// Retrieve data for last one hour
+Select * from records where record_ts >= CURRENT_DATE() - 1/24
